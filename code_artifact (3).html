@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ورقة عمل: الجملة الفعلية والجملة الاسمية</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      background-color: #f0fdfa;
+      background-image: radial-gradient(#0d9488 0.75px, transparent 0.75px), radial-gradient(#06b6d4 0.75px, #f0fdfa 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-teal-200">
+
+  <!-- Header Bar -->
+  <header class="bg-white/90 backdrop-blur-md border-b-2 border-teal-500 shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center shadow-md">
+          <i data-lucide="book-open-check" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-base sm:text-lg text-teal-900 leading-tight">قواعد اللغة العربية - الصف الرابع الابتدائي</h1>
+          <p class="text-xs text-teal-600 font-semibold">ورقة عمل: الجملة الفعلية والجملة الاسمية</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs / Teacher Toggle -->
+      <div class="flex items-center gap-2">
+        <button id="navStudentBtn" onclick="switchView('student')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-teal-600 text-white shadow transition-all flex items-center gap-1.5">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span>شاشة التلميذ</span>
+        </button>
+        <button id="navTeacherBtn" onclick="switchView('teacher')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all flex items-center gap-1.5">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          <span>لوحة المعلم</span>
+          <span id="headerAttemptsCount" class="bg-teal-100 text-teal-800 text-xs px-1.5 py-0.5 rounded-full font-bold">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl w-full mx-auto px-4 py-6 flex-grow">
+
+    <!-- STEP 1: LOGIN / IDENTIFICATION SCREEN -->
+    <div id="loginCard" class="max-w-md mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-teal-200 mt-6">
+      <div class="text-center mb-6">
+        <div class="inline-flex p-4 rounded-2xl bg-teal-50 text-teal-600 mb-3">
+          <i data-lucide="graduation-cap" class="w-12 h-12"></i>
+        </div>
+        <h2 class="text-2xl font-black text-slate-800">مَرْحَبًا بِكَ يَا بَطَل!</h2>
+        <p class="text-sm text-slate-500 mt-1">يُرجى إدخال بياناتك للبدء في حل ورقة العمل</p>
+      </div>
+
+      <form id="startForm" onsubmit="handleStartExam(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-1">اسْمُ الطَّالِب / الطَّالِبَة: <span class="text-rose-500">*</span></label>
+          <div class="relative">
+            <input type="text" id="studentNameInput" required placeholder="اكتب اسمك الكامل هنا..." 
+              class="w-full px-4 py-3 pr-10 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none transition-all font-semibold">
+            <i data-lucide="user" class="w-5 h-5 absolute right-3 top-3.5 text-slate-400"></i>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-1">الشُّعْبَة / الفَصْل: <span class="text-rose-500">*</span></label>
+          <div class="relative">
+            <input type="text" id="studentClassInput" required placeholder="مثال: رابع (أ) أو رابع (ب)..." 
+              class="w-full px-4 py-3 pr-10 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none transition-all font-semibold">
+            <i data-lucide="school" class="w-5 h-5 absolute right-3 top-3.5 text-slate-400"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-teal-600 hover:bg-teal-700 text-white font-extrabold rounded-xl shadow-lg shadow-teal-600/30 flex items-center justify-center gap-2 transition transform active:scale-95 text-base">
+          <span>ابْدَأْ حَلَّ وَرَقَةِ الْعَمَل</span>
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- STEP 2: WORKSHEET INTERFACE -->
+    <div id="worksheetContainer" class="hidden space-y-6">
+      
+      <!-- Student Banner -->
+      <div class="bg-gradient-to-l from-teal-600 to-cyan-700 text-white rounded-2xl p-4 sm:p-5 shadow-lg flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-white">
+            <i data-lucide="file-text" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-teal-200 text-xs font-bold uppercase tracking-wider">الطالب:</span>
+              <h2 id="displayStudentName" class="text-lg font-black tracking-wide">--</h2>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-teal-100 font-semibold">
+              <span>الشعبة:</span>
+              <span id="displayStudentClass">--</span>
+              <span class="mx-1">•</span>
+              <span>عدد الأسئلة: <span class="bg-white/30 px-2 py-0.5 rounded-full font-bold">[4]</span></span>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="resetToLogin()" class="text-xs bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-bold">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>تغيير التلميذ</span>
+        </button>
+      </div>
+
+      <!-- Result Banner (Hidden initially) -->
+      <div id="resultsBanner" class="hidden rounded-2xl p-5 border-2 shadow-lg transition-all animate-bounce-short">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- MAIN EXERCISE CONTENT GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- القسم الأول: الأسئلة الموضوعية (التصنيف والتمييز) -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-md border-2 border-cyan-100 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyan-100 text-cyan-900 font-black text-sm mb-4">
+              <i data-lucide="check-check" class="w-4 h-4 text-cyan-600"></i>
+              <span>الْقِسْمُ الأَوَّل: الأَسْئِلَةُ الْمَوْضُوعِيَّةُ (التَّصْنِيفُ وَالتَّمْيِيزُ)</span>
+            </div>
+
+            <!-- السؤال الأول -->
+            <div class="mb-8">
+              <h3 class="text-base sm:text-lg font-black text-slate-800 border-r-4 border-cyan-500 pr-2.5 mb-4">
+                السُّؤَالُ الأَوَّل (مَوْضُوعِي): صَنِّفِ الْجُمَلَ التَّالِيَةَ بِوَضْعِ عَلَامَةِ (✓) فِي الْمَكَانِ الصَّحِيحِ
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- بطاقة الجملة 1: السماء صافية -->
+                <div class="border-2 border-slate-100 hover:border-cyan-200 rounded-2xl p-3 bg-slate-50/50 flex flex-col items-center text-center transition">
+                  <div class="w-full h-28 rounded-xl overflow-hidden mb-3 bg-sky-100 flex items-center justify-center relative">
+                    <!-- SVG Sky Illustration -->
+                    <svg viewBox="0 0 200 120" class="w-full h-full object-cover">
+                      <rect width="200" height="120" fill="#38bdf8"/>
+                      <circle cx="160" cy="30" r="16" fill="#fef08a" opacity="0.9"/>
+                      <!-- clouds -->
+                      <ellipse cx="60" cy="50" rx="35" ry="18" fill="#ffffff" opacity="0.95"/>
+                      <ellipse cx="85" cy="45" rx="28" ry="16" fill="#ffffff"/>
+                      <ellipse cx="130" cy="65" rx="30" ry="15" fill="#ffffff" opacity="0.9"/>
+                    </svg>
+                  </div>
+                  <div class="text-lg font-black text-slate-800 mb-3 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 w-full">
+                    السَّمَاءُ صَافِيَةٌ
+                  </div>
+                  <div class="w-full space-y-2">
+                    <label class="q1-opt flex items-center justify-between px-3 py-2 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-cyan-50/50 transition">
+                      <span class="font-bold text-sm text-slate-700">جُمْلَةٌ فِعْلِيَّةٌ</span>
+                      <input type="radio" name="q1_item1" value="فعليّة" class="w-4 h-4 text-cyan-600 focus:ring-cyan-500">
+                    </label>
+                    <label class="q1-opt flex items-center justify-between px-3 py-2 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-cyan-50/50 transition">
+                      <span class="font-bold text-sm text-slate-700">جُمْلَةٌ اسْمِيَّةٌ</span>
+                      <input type="radio" name="q1_item1" value="اسميّة" class="w-4 h-4 text-cyan-600 focus:ring-cyan-500">
+                    </label>
+                  </div>
+                  <div id="feedback_q1_1" class="w-full text-xs font-bold mt-2 hidden text-right"></div>
+                </div>
+
+                <!-- بطاقة الجملة 2: أشرقت الشمس -->
+                <div class="border-2 border-slate-100 hover:border-cyan-200 rounded-2xl p-3 bg-slate-50/50 flex flex-col items-center text-center transition">
+                  <div class="w-full h-28 rounded-xl overflow-hidden mb-3 bg-amber-100 flex items-center justify-center relative">
+                    <!-- SVG Sunrise Illustration -->
+                    <svg viewBox="0 0 200 120" class="w-full h-full object-cover">
+                      <defs>
+                        <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#38bdf8"/>
+                          <stop offset="60%" stop-color="#fdba74"/>
+                          <stop offset="100%" stop-color="#fb923c"/>
+                        </linearGradient>
+                      </defs>
+                      <rect width="200" height="120" fill="url(#skyGrad)"/>
+                      <circle cx="100" cy="85" r="32" fill="#fbbf24"/>
+                      <circle cx="100" cy="85" r="38" fill="#fef08a" opacity="0.35"/>
+                      <rect y="85" width="200" height="35" fill="#f97316" opacity="0.8"/>
+                      <line x1="60" y1="95" x2="140" y2="95" stroke="#ffedd5" stroke-width="2"/>
+                      <line x1="80" y1="105" x2="120" y2="105" stroke="#ffedd5" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="text-lg font-black text-slate-800 mb-3 px-2 py-1 bg-white rounded-lg shadow-sm border border-slate-100 w-full">
+                    أَشْرَقَتِ الشَّمْسُ
+                  </div>
+                  <div class="w-full space-y-2">
+                    <label class="q1-opt flex items-center justify-between px-3 py-2 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-cyan-50/50 transition">
+                      <span class="font-bold text-sm text-slate-700">جُمْلَةٌ فِعْلِيَّةٌ</span>
+                      <input type="radio" name="q1_item2" value="فعليّة" class="w-4 h-4 text-cyan-600 focus:ring-cyan-500">
+                    </label>
+                    <label class="q1-opt flex items-center justify-between px-3 py-2 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-cyan-50/50 transition">
+                      <span class="font-bold text-sm text-slate-700">جُمْلَةٌ اسْمِيَّةٌ</span>
+                      <input type="radio" name="q1_item2" value="اسميّة" class="w-4 h-4 text-cyan-600 focus:ring-cyan-500">
+                    </label>
+                  </div>
+                  <div id="feedback_q1_2" class="w-full text-xs font-bold mt-2 hidden text-right"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- السؤال الثاني -->
+            <div>
+              <h3 class="text-base sm:text-lg font-black text-slate-800 border-r-4 border-cyan-500 pr-2.5 mb-2">
+                السُّؤَالُ الثَّانِي (مَوْضُوعِي): صِلْ كُلَّ جُمْلَةٍ بِالتَّرْكِيبِ الْعَنَاصِرِيِّ الْمُنَاسِبِ لَهَا
+              </h3>
+              <p class="text-xs text-slate-500 mb-4">اختر التركيب الصحيح الذي يناسب كل جملة:</p>
+
+              <div class="space-y-4">
+                <!-- البند 1: كتب التلميذ -->
+                <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-blue-600">
+                      <i data-lucide="pencil-line" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <span class="text-lg font-black text-slate-800">كَتَبَ التِّلْمِيذُ</span>
+                      <div class="text-[11px] text-slate-500 font-semibold">ما التركيب النحوي؟</div>
+                    </div>
+                  </div>
+
+                  <div class="w-full sm:w-48">
+                    <select id="q2_item1" class="w-full px-3 py-2.5 bg-white border-2 border-slate-200 rounded-xl font-bold text-sm focus:border-cyan-500 focus:outline-none transition">
+                      <option value="">-- اختر التركيب --</option>
+                      <option value="فعل + فاعل">فِعْل + فَاعِل</option>
+                      <option value="مبتدأ + خبر">مُبْتَدَأ + خَبَر</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="feedback_q2_1" class="text-xs font-bold px-2 hidden"></div>
+
+                <!-- البند 2: الحديقة جميلة -->
+                <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-600">
+                      <i data-lucide="trees" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <span class="text-lg font-black text-slate-800">الحَدِيقَةُ جَمِيلَةٌ</span>
+                      <div class="text-[11px] text-slate-500 font-semibold">ما التركيب النحوي؟</div>
+                    </div>
+                  </div>
+
+                  <div class="w-full sm:w-48">
+                    <select id="q2_item2" class="w-full px-3 py-2.5 bg-white border-2 border-slate-200 rounded-xl font-bold text-sm focus:border-cyan-500 focus:outline-none transition">
+                      <option value="">-- اختر التركيب --</option>
+                      <option value="فعل + فاعل">فِعْل + فَاعِل</option>
+                      <option value="مبتدأ + خبر">مُبْتَدَأ + خَبَر</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="feedback_q2_2" class="text-xs font-bold px-2 hidden"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- القسم الثاني: الأسئلة المقالية (التحليل والإنشاء) -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-md border-2 border-emerald-100 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 font-black text-sm mb-4">
+              <i data-lucide="file-pen" class="w-4 h-4 text-emerald-600"></i>
+              <span>الْقِسْمُ الثَّانِي: الأَسْئِلَةُ الْمَقَالِيَّةُ (التَّحْلِيلُ وَالإِنْشَاءُ)</span>
+            </div>
+
+            <!-- السؤال الثالث -->
+            <div class="mb-8">
+              <h3 class="text-base sm:text-lg font-black text-slate-800 border-r-4 border-emerald-500 pr-2.5 mb-4">
+                السُّؤَالُ الثَّالِث (مَقَالِي): حَلِّلِ الْجُمْلَتَيْنِ الآتِيَتَيْنِ وَاسْتَخْرِجِ الْعَنَاصِرَ الأَسَاسِيَّةَ
+              </h3>
+
+              <!-- تحليل 1: زرع الفلاح الشجرة -->
+              <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-lg font-black text-emerald-900">زَرَعَ الْفَلَّاحُ الشَّجَرَةَ</span>
+                  <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <i data-lucide="sprout" class="w-5 h-5"></i>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">الْفِعْل:</label>
+                    <input type="text" id="q3_verb" placeholder="اكتب الفعل هنا..." 
+                      class="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                    <div id="feedback_q3_verb" class="text-xs font-bold mt-1 hidden"></div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">الْفَاعِل:</label>
+                    <input type="text" id="q3_subject" placeholder="اكتب الفاعل هنا..." 
+                      class="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                    <div id="feedback_q3_subject" class="text-xs font-bold mt-1 hidden"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- تحليل 2: الطائر جميل -->
+              <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-lg font-black text-sky-900">الطَّائِرُ جَمِيلٌ</span>
+                  <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center">
+                    <i data-lucide="feather" class="w-5 h-5"></i>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">الْمُبْتَدَأ:</label>
+                    <input type="text" id="q3_mubtada" placeholder="اكتب المبتدأ هنا..." 
+                      class="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                    <div id="feedback_q3_mubtada" class="text-xs font-bold mt-1 hidden"></div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">الْخَبَر:</label>
+                    <input type="text" id="q3_khabar" placeholder="اكتب الخبر هنا..." 
+                      class="w-full px-3 py-2 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                    <div id="feedback_q3_khabar" class="text-xs font-bold mt-1 hidden"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- السؤال الرابع -->
+            <div>
+              <h3 class="text-base sm:text-lg font-black text-slate-800 border-r-4 border-emerald-500 pr-2.5 mb-2">
+                السُّؤَالُ الرَّابِع (مَقَالِي): أَنْتِجْ جُمَلًا مُفِيدَةً بِاسْتِخْدَامِ الْكَلِمَاتِ الْمُسَاعِدَةِ
+              </h3>
+              
+              <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-center text-xs font-bold text-amber-900 mb-4">
+                كَلِمَاتُ الْمُسَاعَدَة: <span class="text-amber-700 font-black text-sm">(التِّلْمِيذُ - قَرَأَ - مُجْتَهِدٌ)</span>
+              </div>
+
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    1. كَوِّنْ <span class="text-teal-700 font-extrabold">جُمْلَةً فِعْلِيَّةً</span>:
+                  </label>
+                  <input type="text" id="q4_verbal" placeholder="اكتب الجملة الفعلية (تبدأ بفعل)..." 
+                    class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                  <div id="feedback_q4_verbal" class="text-xs font-bold mt-1 hidden"></div>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    2. كَوِّنْ <span class="text-cyan-700 font-extrabold">جُمْلَةً اسْمِيَّةً</span>:
+                  </label>
+                  <input type="text" id="q4_nominal" placeholder="اكتب الجملة الاسمية (تبدأ باسم)..." 
+                    class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-200 text-sm font-bold focus:border-emerald-500 focus:outline-none transition">
+                  <div id="feedback_q4_nominal" class="text-xs font-bold mt-1 hidden"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+        <button id="submitBtn" onclick="gradeWorksheet()" class="px-8 py-3.5 bg-teal-600 hover:bg-teal-700 text-white font-extrabold rounded-2xl shadow-lg shadow-teal-700/30 flex items-center gap-2 text-base transition transform active:scale-95">
+          <i data-lucide="send" class="w-5 h-5"></i>
+          <span>إرْسَالُ الإِجَابَاتِ وَالتَّصْحِيح</span>
+        </button>
+
+        <button id="retryBtn" onclick="resetAnswers()" class="hidden px-6 py-3.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-2xl flex items-center gap-2 text-sm transition">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          <span>مُحَاوَلَةٌ جَدِيدَة</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- STEP 3: TEACHER DASHBOARD & RANK TABLE -->
+    <div id="teacherView" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-slate-200">
+        
+        <!-- Dashboard Header -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-purple-100 text-purple-900 font-bold text-xs mb-1">
+              <i data-lucide="shield-check" class="w-4 h-4 text-purple-600"></i>
+              <span>لوحة تحكم الأستاذ(ة)</span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900">سجل النتائج ولوحة الشرف (Rank Table)</h2>
+            <p class="text-xs text-slate-500 mt-0.5">متابعة إنجازات التلاميذ وترتيبهم حسب أعلى درجة وتفاصيل إجاباتهم</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="clearAllDataModal()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl border border-rose-200 transition flex items-center gap-1.5">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              <span>تفريغ السجل</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Badges -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xl">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 font-bold">إجمالي المحاولات</div>
+              <div id="statTotalAttempts" class="text-2xl font-black text-slate-800">0</div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl">
+              <i data-lucide="award" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 font-bold">أعلى علامة محققة</div>
+              <div id="statTopScore" class="text-2xl font-black text-slate-800">--</div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xl">
+              <i data-lucide="percent" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 font-bold">متوسط الدرجات</div>
+              <div id="statAvgScore" class="text-2xl font-black text-slate-800">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter / Search -->
+        <div class="mb-4 flex flex-wrap gap-3 items-center justify-between">
+          <div class="relative w-full sm:w-72">
+            <input type="text" id="teacherSearchInput" oninput="renderRankTable()" placeholder="ابحث باسم التلميذ أو الشعبة..." 
+              class="w-full pl-3 pr-9 py-2 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:border-teal-500 focus:outline-none">
+            <i data-lucide="search" class="w-4 h-4 absolute right-3 top-3 text-slate-400"></i>
+          </div>
+
+          <span class="text-xs text-slate-400 font-bold">يتم الترتيب تلقائيًا من الأعلى إلى الأدنى</span>
+        </div>
+
+        <!-- Rank Table -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+          <table class="w-full text-right text-sm">
+            <thead class="bg-slate-100/80 text-slate-700 font-extrabold text-xs">
+              <tr>
+                <th class="px-4 py-3">الترتيب</th>
+                <th class="px-4 py-3">اسم التلميذ</th>
+                <th class="px-4 py-3">الشعبة</th>
+                <th class="px-4 py-3">الدرجة</th>
+                <th class="px-4 py-3">النسبة</th>
+                <th class="px-4 py-3">التاريخ والوقت</th>
+                <th class="px-4 py-3 text-center">التفاصيل</th>
+              </tr>
+            </thead>
+            <tbody id="rankTableBody" class="divide-y divide-slate-100 font-medium">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: Student Detailed Answers Inspection -->
+  <div id="detailsModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] flex flex-col border border-slate-200 animate-in fade-in">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div>
+          <h3 id="modalStudentName" class="text-xl font-black text-slate-800">تفاصيل إجابة الطالب</h3>
+          <p id="modalStudentMeta" class="text-xs text-slate-500"></p>
+        </div>
+        <button onclick="closeDetailsModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="modalDetailsContent" class="overflow-y-auto space-y-4 pr-1 pl-2 custom-scroll text-sm">
+        <!-- Injected via JS -->
+      </div>
+
+      <div class="mt-4 pt-3 border-t text-left">
+        <button onclick="closeDetailsModal()" class="px-5 py-2 bg-slate-800 text-white font-bold rounded-xl text-xs hover:bg-slate-900 transition">
+          إغلاق النافذة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert Modal (No browser alert) -->
+  <div id="customAlertModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl text-center">
+      <div id="alertIcon" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center mb-3">
+        <!-- SVG icon -->
+      </div>
+      <h4 id="alertTitle" class="text-lg font-bold text-slate-800 mb-1">تنبيه</h4>
+      <p id="alertMessage" class="text-xs text-slate-600 mb-4"></p>
+      <div id="alertActions" class="flex items-center justify-center gap-2">
+        <button onclick="closeAlertModal()" class="px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold">حسناً</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white/80 border-t border-slate-200 py-3 text-center text-xs text-slate-500">
+    ورقة عمل تفاعلية • قواعد اللغة العربية (الجملة الفعلية والجملة الاسمية) - الصف الرابع الابتدائي
+  </footer>
+
+  <script>
+    /* Application State */
+    let currentStudent = {
+      name: '',
+      studentClass: ''
+    };
+
+    // Stored attempts list in memory
+    let attemptsHistory = [];
+
+    // Helper: Normalize Arabic strings (remove diacritics / tanween / normalize alef)
+    function normalizeArabic(text) {
+      if (!text) return '';
+      return text
+        .trim()
+        .replace(/[\u064B-\u065F\u0670]/g, '') // Remove tashkeel/diacritics
+        .replace(/[إأآا]/g, 'ا')               // Normalize Alef
+        .replace(/ة/g, 'ه')                    // Normalize Ta Marbouta
+        .replace(/ى/g, 'ي')                    // Normalize Alif Maqsura
+        .replace(/\s+/g, ' ');                 // Single spaces
+    }
+
+    // Initialize icons
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    // Switch between Student view and Teacher view
+    function switchView(view) {
+      const studentCard = document.getElementById('worksheetContainer');
+      const loginCard = document.getElementById('loginCard');
+      const teacherCard = document.getElementById('teacherView');
+      const navStudent = document.getElementById('navStudentBtn');
+      const navTeacher = document.getElementById('navTeacherBtn');
+
+      if (view === 'student') {
+        teacherCard.classList.add('hidden');
+        if (currentStudent.name) {
+          studentCard.classList.remove('hidden');
+          loginCard.classList.add('hidden');
+        } else {
+          loginCard.classList.remove('hidden');
+          studentCard.classList.add('hidden');
+        }
+        navStudent.className = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-teal-600 text-white shadow transition-all flex items-center gap-1.5';
+        navTeacher.className = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all flex items-center gap-1.5';
+      } else {
+        loginCard.classList.add('hidden');
+        studentCard.classList.add('hidden');
+        teacherCard.classList.remove('hidden');
+        navStudent.className = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all flex items-center gap-1.5';
+        navTeacher.className = 'px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-teal-600 text-white shadow transition-all flex items-center gap-1.5';
+        renderRankTable();
+      }
+      refreshIcons();
+    }
+
+    function handleStartExam(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('studentNameInput').value.trim();
+      const classInput = document.getElementById('studentClassInput').value.trim();
+
+      if (!nameInput || !classInput) {
+        showCustomAlert('بيانات ناقصة', 'يُرجى إدخال اسم التلميذ والشعبة للبدء.', 'warning');
+        return;
+      }
+
+      currentStudent.name = nameInput;
+      currentStudent.studentClass = classInput;
+
+      document.getElementById('displayStudentName').innerText = nameInput;
+      document.getElementById('displayStudentClass').innerText = classInput;
+
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('worksheetContainer').classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      refreshIcons();
+    }
+
+    function resetToLogin() {
+      currentStudent = { name: '', studentClass: '' };
+      document.getElementById('studentNameInput').value = '';
+      document.getElementById('studentClassInput').value = '';
+      document.getElementById('worksheetContainer').classList.add('hidden');
+      document.getElementById('loginCard').classList.remove('hidden');
+      resetAnswers();
+      refreshIcons();
+    }
+
+    function gradeWorksheet() {
+      // Gather inputs
+      const q1_1 = document.querySelector('input[name="q1_item1"]:checked')?.value || '';
+      const q1_2 = document.querySelector('input[name="q1_item2"]:checked')?.value || '';
+      
+      const q2_1 = document.getElementById('q2_item1').value;
+      const q2_2 = document.getElementById('q2_item2').value;
+
+      const q3_verb = document.getElementById('q3_verb').value.trim();
+      const q3_subject = document.getElementById('q3_subject').value.trim();
+      const q3_mubtada = document.getElementById('q3_mubtada').value.trim();
+      const q3_khabar = document.getElementById('q3_khabar').value.trim();
+
+      const q4_verbal = document.getElementById('q4_verbal').value.trim();
+      const q4_nominal = document.getElementById('q4_nominal').value.trim();
+
+      // Check if completely empty
+      if (!q1_1 && !q1_2 && !q2_1 && !q2_2 && !q3_verb && !q3_subject && !q3_mubtada && !q3_khabar && !q4_verbal && !q4_nominal) {
+        showCustomAlert('تنبيه', 'يُرجى الإجابة على الأسئلة قبل إرسال ورقة العمل.', 'warning');
+        return;
+      }
+
+      let totalPoints = 0;
+      const maxPoints = 8; // Each element gets 1 point (Total 8 points)
+      const evaluationDetails = [];
+
+      // Helper function to set feedback
+      function evaluateItem(id, isCorrect, correctText, explanation) {
+        const fbEl = document.getElementById(id);
+        fbEl.classList.remove('hidden');
+        if (isCorrect) {
+          totalPoints += 1;
+          fbEl.className = 'text-xs font-bold mt-1 text-emerald-600 flex items-center gap-1';
+          fbEl.innerHTML = `✓ أحسنت! إجابة صحيحة.`;
+        } else {
+          fbEl.className = 'text-xs font-bold mt-1 text-rose-600 flex items-center gap-1';
+          fbEl.innerHTML = `✗ الإجابة الصحيحة: (${correctText}) - ${explanation}`;
+        }
+      }
+
+      // Q1.1: السماء صافية -> اسمية
+      const isQ1_1_Correct = q1_1 === 'اسميّة';
+      evaluateItem('feedback_q1_1', isQ1_1_Correct, 'جملة اسمية', 'لأنها تبدأ باسم (السماء)');
+      evaluationDetails.push({
+        title: 'السؤال 1 (السماء صافية)',
+        studentAnswer: q1_1 || 'لم يجب',
+        correctAnswer: 'جُمْلَةٌ اسْمِيَّةٌ',
+        status: isQ1_1_Correct
+      });
+
+      // Q1.2: أشرقت الشمس -> فعلية
+      const isQ1_2_Correct = q1_2 === 'فعليّة';
+      evaluateItem('feedback_q1_2', isQ1_2_Correct, 'جملة فعلية', 'لأنها تبدأ بفعل ماضٍ (أشرقت)');
+      evaluationDetails.push({
+        title: 'السؤال 1 (أشرقت الشمس)',
+        studentAnswer: q1_2 || 'لم يجب',
+        correctAnswer: 'جُمْلَةٌ فِعْلِيَّةٌ',
+        status: isQ1_2_Correct
+      });
+
+      // Q2.1: كتب التلميذ -> فعل + فاعل
+      const isQ2_1_Correct = q2_1 === 'فعل + فاعل';
+      evaluateItem('feedback_q2_1', isQ2_1_Correct, 'فعل + فاعل', 'كتب: فعل، التلميذ: فاعل');
+      evaluationDetails.push({
+        title: 'السؤال 2 (كتب التلميذ)',
+        studentAnswer: q2_1 || 'لم يختر',
+        correctAnswer: 'فِعْل + فَاعِل',
+        status: isQ2_1_Correct
+      });
+
+      // Q2.2: الحديقة جميلة -> مبتدأ + خبر
+      const isQ2_2_Correct = q2_2 === 'مبتدأ + خبر';
+      evaluateItem('feedback_q2_2', isQ2_2_Correct, 'مبتدأ + خبر', 'الحديقة: مبتدأ، جميلة: خبر');
+      evaluationDetails.push({
+        title: 'السؤال 2 (الحديقة جميلة)',
+        studentAnswer: q2_2 || 'لم يختر',
+        correctAnswer: 'مُبْتَدَأ + خَبَر',
+        status: isQ2_2_Correct
+      });
+
+      // Q3.1: زرع الفلاح الشجرة -> الفعل: زرع
+      const isQ3_verb_Correct = normalizeArabic(q3_verb) === normalizeArabic('زرع');
+      evaluateItem('feedback_q3_verb', isQ3_verb_Correct, 'زَرَعَ', 'الفعل يدل على الحدث');
+      evaluationDetails.push({
+        title: 'السؤال 3 (زرع الفلاح - الفعل)',
+        studentAnswer: q3_verb || 'فارغ',
+        correctAnswer: 'زَرَعَ',
+        status: isQ3_verb_Correct
+      });
+
+      // Q3.2: الفاعل: الفلاح
+      const isQ3_subject_Correct = ['فلاح', 'الفلاح'].includes(normalizeArabic(q3_subject));
+      evaluateItem('feedback_q3_subject', isQ3_subject_Correct, 'الْفَلَّاحُ', 'الفاعل هو من قام بالزرع');
+      evaluationDetails.push({
+        title: 'السؤال 3 (زرع الفلاح - الفاعل)',
+        studentAnswer: q3_subject || 'فارغ',
+        correctAnswer: 'الْفَلَّاحُ',
+        status: isQ3_subject_Correct
+      });
+
+      // Q3.3: الطائر جميل -> المبتدأ: الطائر
+      const isQ3_mubtada_Correct = ['طائر', 'الطائر'].includes(normalizeArabic(q3_mubtada));
+      evaluateItem('feedback_q3_mubtada', isQ3_mubtada_Correct, 'الطَّائِرُ', 'الاسم الذي بدأت به الجملة');
+      evaluationDetails.push({
+        title: 'السؤال 3 (الطائر جميل - المبتدأ)',
+        studentAnswer: q3_mubtada || 'فارغ',
+        correctAnswer: 'الطَّائِرُ',
+        status: isQ3_mubtada_Correct
+      });
+
+      // Q3.4: الخبر: جميل
+      const isQ3_khabar_Correct = normalizeArabic(q3_khabar) === normalizeArabic('جميل');
+      evaluateItem('feedback_q3_khabar', isQ3_khabar_Correct, 'جَمِيلٌ', 'الكلمة التي تممت المعنى مع المبتدأ');
+      evaluationDetails.push({
+        title: 'السؤال 3 (الطائر جميل - الخبر)',
+        studentAnswer: q3_khabar || 'فارغ',
+        correctAnswer: 'جَمِيلٌ',
+        status: isQ3_khabar_Correct
+      });
+
+      // Q4.1: جملة فعلية باستخدام (التلميذ - قرأ - مجتهد)
+      // Must start with "قرأ"
+      const normVerbal = normalizeArabic(q4_verbal);
+      const isVerbalStart = normVerbal.startsWith('قرا');
+      const hasStudentWord = normVerbal.includes('تلميذ') || normVerbal.includes('التلميذ');
+      const isQ4_verbal_Correct = isVerbalStart && hasStudentWord;
+      evaluateItem(
+        'feedback_q4_verbal', 
+        isQ4_verbal_Correct, 
+        'قَرَأَ التِّلْمِيذُ الْمُجْتَهِدُ (أو: قَرَأَ التِّلْمِيذُ)',
+        'يجب أن تبدأ بالفعل "قَرَأَ" وتكون جملة مفيدة'
+      );
+      if (isQ4_verbal_Correct) totalPoints += 1;
+      evaluationDetails.push({
+        title: 'السؤال 4 (تكوين جملة فعلية)',
+        studentAnswer: q4_verbal || 'فارغ',
+        correctAnswer: 'قَرَأَ التِّلْمِيذُ الْمُجْتَهِدُ',
+        status: isQ4_verbal_Correct
+      });
+
+      // Q4.2: جملة اسمية باستخدام (التلميذ - قرأ - مجتهد)
+      // Must start with "التلميذ"
+      const normNominal = normalizeArabic(q4_nominal);
+      const isNominalStart = normNominal.startsWith('التلميذ') || normNominal.startsWith('تلميذ');
+      const hasPredicate = normNominal.includes('مجتهد') || normNominal.includes('قرا');
+      const isQ4_nominal_Correct = isNominalStart && hasPredicate;
+      evaluateItem(
+        'feedback_q4_nominal', 
+        isQ4_nominal_Correct, 
+        'التِّلْمِيذُ مُجْتَهِدٌ (أو: التِّلْمِيذُ قَرَأَ)', 
+        'يجب أن تبدأ بالاسم "التِّلْمِيذُ" وتكون جملة مفيدة'
+      );
+      if (isQ4_nominal_Correct) totalPoints += 1;
+      evaluationDetails.push({
+        title: 'السؤال 4 (تكوين جملة اسمية)',
+        studentAnswer: q4_nominal || 'فارغ',
+        correctAnswer: 'التِّلْمِيذُ مُجْتَهِدٌ',
+        status: isQ4_nominal_Correct
+      });
+
+      // Calculate Final Grade (Total possible elements: 10)
+      const finalMaxPoints = 10;
+      const scorePercentage = Math.round((totalPoints / finalMaxPoints) * 100);
+
+      // Disable inputs to view corrections
+      lockInputs(true);
+
+      // Show Results Banner
+      const resultsBanner = document.getElementById('resultsBanner');
+      resultsBanner.classList.remove('hidden');
+
+      let bannerBg = '';
+      let bannerIcon = '';
+      let praiseTitle = '';
+      let praiseMsg = '';
+
+      if (scorePercentage >= 85) {
+        bannerBg = 'bg-emerald-50 border-emerald-300 text-emerald-900';
+        bannerIcon = 'trophy';
+        praiseTitle = 'مُمْتَازٌ جِدًّا يَا بَطَل! 🎉';
+        praiseMsg = 'أداء رائع ومتميز في فهم الجملة الفعلية والاسمية وأركانهما.';
+      } else if (scorePercentage >= 60) {
+        bannerBg = 'bg-cyan-50 border-cyan-300 text-cyan-900';
+        bannerIcon = 'thumbs-up';
+        praiseTitle = 'عَمَلٌ جَيِّدٌ وَمُبَارَك! 👏';
+        praiseMsg = 'لقد أحسنت، ويمكنك مراجعة بعض الأخطاء وإعادة المحاولة للوصول إلى الدرجة الكاملة.';
+      } else {
+        bannerBg = 'bg-amber-50 border-amber-300 text-amber-900';
+        bannerIcon = 'book-open';
+        praiseTitle = 'مُحَاوَلَةٌ طَيِّبَة، حَاوِلْ مَرَّةً أُخْرَى! 💪';
+        praiseMsg = 'راجع الفروق بين الجملة الفعلية (التي تبدأ بفعل) والجملة الاسمية (التي تبدأ باسم).';
+      }
+
+      resultsBanner.className = `rounded-2xl p-5 border-2 shadow-md transition-all ${bannerBg}`;
+      resultsBanner.innerHTML = `
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3 text-center sm:text-right">
+            <div class="w-14 h-14 rounded-2xl bg-white/70 shadow-sm flex items-center justify-center flex-shrink-0">
+              <i data-lucide="${bannerIcon}" class="w-8 h-8"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-black">${praiseTitle}</h3>
+              <p class="text-xs font-semibold mt-1">${praiseMsg}</p>
+            </div>
+          </div>
+          <div class="text-center sm:text-left bg-white/80 px-5 py-3 rounded-2xl border shadow-sm">
+            <span class="text-xs font-bold text-slate-500 block">العلامة النهائية</span>
+            <span class="text-3xl font-black text-teal-800">${totalPoints} <span class="text-sm text-slate-500 font-bold">/ ${finalMaxPoints}</span></span>
+            <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 block mt-1">${scorePercentage}%</span>
+          </div>
+        </div>
+      `;
+
+      // Toggle action buttons
+      document.getElementById('submitBtn').classList.add('hidden');
+      document.getElementById('retryBtn').classList.remove('hidden');
+
+      // Save Attempt record
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
+      const dateString = now.toLocaleDateString('ar-TN', { year: 'numeric', month: 'short', day: 'numeric' });
+
+      const attemptRecord = {
+        id: Date.now(),
+        name: currentStudent.name,
+        studentClass: currentStudent.studentClass,
+        score: totalPoints,
+        maxScore: finalMaxPoints,
+        percentage: scorePercentage,
+        timestamp: `${dateString} - ${timeString}`,
+        rawDate: now,
+        details: evaluationDetails
+      };
+
+      attemptsHistory.push(attemptRecord);
+      updateHeaderCounter();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      refreshIcons();
+    }
+
+    // Lock/Unlock inputs during correction
+    function lockInputs(locked) {
+      const inputs = document.querySelectorAll('#worksheetContainer input, #worksheetContainer select');
+      inputs.forEach(el => {
+        el.disabled = locked;
+      });
+    }
+
+    // Reset for another attempt
+    function resetAnswers() {
+      // Clear radio
+      document.querySelectorAll('input[name="q1_item1"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="q1_item2"]').forEach(r => r.checked = false);
+
+      // Clear selects
+      document.getElementById('q2_item1').value = '';
+      document.getElementById('q2_item2').value = '';
+
+      // Clear text inputs
+      document.getElementById('q3_verb').value = '';
+      document.getElementById('q3_subject').value = '';
+      document.getElementById('q3_mubtada').value = '';
+      document.getElementById('q3_khabar').value = '';
+      document.getElementById('q4_verbal').value = '';
+      document.getElementById('q4_nominal').value = '';
+
+      // Hide all feedback divs
+      const feedbacks = document.querySelectorAll('[id^="feedback_"]');
+      feedbacks.forEach(f => {
+        f.classList.add('hidden');
+        f.innerHTML = '';
+      });
+
+      // Hide results banner
+      document.getElementById('resultsBanner').classList.add('hidden');
+
+      // Toggle buttons
+      document.getElementById('submitBtn').classList.remove('hidden');
+      document.getElementById('retryBtn').classList.add('hidden');
+
+      lockInputs(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      refreshIcons();
+    }
+
+    // Update attempts counter in header
+    function updateHeaderCounter() {
+      const el = document.getElementById('headerAttemptsCount');
+      if (el) el.innerText = attemptsHistory.length;
+    }
+
+    function renderRankTable() {
+      const tbody = document.getElementById('rankTableBody');
+      const searchQuery = (document.getElementById('teacherSearchInput')?.value || '').toLowerCase().trim();
+
+      // Stats Calculation
+      const totalCount = attemptsHistory.length;
+      document.getElementById('statTotalAttempts').innerText = totalCount;
+
+      if (totalCount > 0) {
+        const highest = Math.max(...attemptsHistory.map(a => a.score));
+        const avg = Math.round(attemptsHistory.reduce((acc, curr) => acc + curr.percentage, 0) / totalCount);
+        document.getElementById('statTopScore').innerText = `${highest} / 10`;
+        document.getElementById('statAvgScore').innerText = `${avg}%`;
+      } else {
+        document.getElementById('statTopScore').innerText = '--';
+        document.getElementById('statAvgScore').innerText = '--';
+      }
+
+      if (totalCount === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-10 text-slate-400">
+              <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+              <span>لا توجد محاولات مسجلة بعد. عندما يقوم التلاميذ بحل ورقة العمل، ستظهر نتائجهم وترتيبهم هنا مباشرة.</span>
+            </td>
+          </tr>
+        `;
+        refreshIcons();
+        return;
+      }
+
+      // Sort by score descending, then by date descending
+      let sorted = [...attemptsHistory].sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return b.rawDate - a.rawDate;
+      });
+
+      // Filter by search
+      if (searchQuery) {
+        sorted = sorted.filter(a => 
+          a.name.toLowerCase().includes(searchQuery) || 
+          a.studentClass.toLowerCase().includes(searchQuery)
+        );
+      }
+
+      if (sorted.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-8 text-slate-400 font-bold">
+              لا توجد نتائج تطابق بحثك.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = sorted.map((att, idx) => {
+        let rankBadge = '';
+        if (idx === 0) {
+          rankBadge = '<span class="w-7 h-7 rounded-full bg-amber-400 text-amber-950 font-black inline-flex items-center justify-center text-xs shadow-sm">1 🥇</span>';
+        } else if (idx === 1) {
+          rankBadge = '<span class="w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-black inline-flex items-center justify-center text-xs shadow-sm">2 🥈</span>';
+        } else if (idx === 2) {
+          rankBadge = '<span class="w-7 h-7 rounded-full bg-amber-600 text-white font-black inline-flex items-center justify-center text-xs shadow-sm">3 🥉</span>';
+        } else {
+          rankBadge = `<span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 font-bold inline-flex items-center justify-center text-xs">${idx + 1}</span>`;
+        }
+
+        let scoreBadgeClass = 'bg-emerald-100 text-emerald-800';
+        if (att.percentage < 60) scoreBadgeClass = 'bg-rose-100 text-rose-800';
+        else if (att.percentage < 80) scoreBadgeClass = 'bg-cyan-100 text-cyan-800';
+
+        return `
+          <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+            <td class="px-4 py-3 font-bold">${rankBadge}</td>
+            <td class="px-4 py-3 font-black text-slate-800">${escapeHtml(att.name)}</td>
+            <td class="px-4 py-3 font-semibold text-slate-600">${escapeHtml(att.studentClass)}</td>
+            <td class="px-4 py-3 font-extrabold text-teal-800">${att.score} / ${att.maxScore}</td>
+            <td class="px-4 py-3">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black ${scoreBadgeClass}">
+                ${att.percentage}%
+              </span>
+            </td>
+            <td class="px-4 py-3 text-xs text-slate-400 font-medium">${att.timestamp}</td>
+            <td class="px-4 py-3 text-center">
+              <button onclick="viewAttemptDetails(${att.id})" class="px-2.5 py-1 bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 mx-auto">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                <span>مراجعة</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      refreshIcons();
+    }
+
+    // Modal Inspection for each attempt
+    function viewAttemptDetails(attemptId) {
+      const attempt = attemptsHistory.find(a => a.id === attemptId);
+      if (!attempt) return;
+
+      document.getElementById('modalStudentName').innerText = `إجابات التلميذ: ${attempt.name}`;
+      document.getElementById('modalStudentMeta').innerText = `الشعبة: ${attempt.studentClass} • النتيجة: ${attempt.score}/${attempt.maxScore} (${attempt.percentage}%) • التاريخ: ${attempt.timestamp}`;
+
+      const container = document.getElementById('modalDetailsContent');
+      container.innerHTML = attempt.details.map(item => `
+        <div class="p-3 rounded-2xl border ${item.status ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'}">
+          <div class="flex items-center justify-between font-bold mb-1">
+            <span class="text-slate-800">${escapeHtml(item.title)}</span>
+            <span class="text-xs px-2 py-0.5 rounded-md font-extrabold ${item.status ? 'bg-emerald-200 text-emerald-900' : 'bg-rose-200 text-rose-900'}">
+              ${item.status ? 'صحيحة ✓' : 'غير صحيحة ✗'}
+            </span>
+          </div>
+          <div class="text-xs text-slate-600 mt-1">
+            <span class="font-bold">إجابة التلميذ:</span> <span class="font-semibold text-slate-800">${escapeHtml(item.studentAnswer)}</span>
+          </div>
+          ${!item.status ? `
+            <div class="text-xs text-emerald-800 mt-0.5 font-bold">
+              <span>الإجابة النموذجية:</span> ${escapeHtml(item.correctAnswer)}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+
+      document.getElementById('detailsModal').classList.remove('hidden');
+      refreshIcons();
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('detailsModal').classList.add('hidden');
+    }
+
+    function showCustomAlert(title, message, type = 'info') {
+      const modal = document.getElementById('customAlertModal');
+      const titleEl = document.getElementById('alertTitle');
+      const msgEl = document.getElementById('alertMessage');
+      const iconEl = document.getElementById('alertIcon');
+
+      titleEl.innerText = title;
+      msgEl.innerText = message;
+
+      if (type === 'warning') {
+        iconEl.className = 'w-12 h-12 rounded-full mx-auto flex items-center justify-center mb-3 bg-amber-100 text-amber-600';
+        iconEl.innerHTML = '<i data-lucide="alert-triangle" class="w-6 h-6"></i>';
+      } else {
+        iconEl.className = 'w-12 h-12 rounded-full mx-auto flex items-center justify-center mb-3 bg-teal-100 text-teal-600';
+        iconEl.innerHTML = '<i data-lucide="info" class="w-6 h-6"></i>';
+      }
+
+      modal.classList.remove('hidden');
+      refreshIcons();
+    }
+
+    function closeAlertModal() {
+      document.getElementById('customAlertModal').classList.add('hidden');
+    }
+
+    function clearAllDataModal() {
+      const modal = document.getElementById('customAlertModal');
+      const titleEl = document.getElementById('alertTitle');
+      const msgEl = document.getElementById('alertMessage');
+      const iconEl = document.getElementById('alertIcon');
+      const actionsEl = document.getElementById('alertActions');
+
+      titleEl.innerText = 'تأكيد المسح';
+      msgEl.innerText = 'هل أنت متأكد من مسح جميع محاولات التلاميذ من السجل؟';
+      iconEl.className = 'w-12 h-12 rounded-full mx-auto flex items-center justify-center mb-3 bg-rose-100 text-rose-600';
+      iconEl.innerHTML = '<i data-lucide="trash-2" class="w-6 h-6"></i>';
+
+      actionsEl.innerHTML = `
+        <button onclick="confirmClearData()" class="px-4 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold hover:bg-rose-700">نعم، مسح</button>
+        <button onclick="closeAlertModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-300">إلغاء</button>
+      `;
+
+      modal.classList.remove('hidden');
+      refreshIcons();
+    }
+
+    function confirmClearData() {
+      attemptsHistory = [];
+      updateHeaderCounter();
+      renderRankTable();
+      closeAlertModal();
+      document.getElementById('alertActions').innerHTML = `
+        <button onclick="closeAlertModal()" class="px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold">حسناً</button>
+      `;
+    }
+
+    function escapeHtml(string) {
+      if (!string) return '';
+      return String(string)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Initial load
+    window.onload = function() {
+      refreshIcons();
+    };
+  </script>
+</body>
+</html>
